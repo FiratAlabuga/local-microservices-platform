@@ -1,0 +1,13 @@
+# CI overrides for Service A (used in GitHub Actions test jobs)
+image:
+  repository: ghcr.io/localplatform/service-a
+  pullPolicy: IfNotPresent
+  tag: ci-test
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 384Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi

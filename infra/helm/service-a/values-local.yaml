@@ -1,0 +1,22 @@
+# Local overrides for Service A (kind cluster)
+service:
+  type: NodePort
+  nodePort: 30080
+
+image:
+  repository: service-a
+  tag: local
+  pullPolicy: Never
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+livenessProbe:
+  initialDelaySeconds: 40
+readinessProbe:
+  initialDelaySeconds: 25

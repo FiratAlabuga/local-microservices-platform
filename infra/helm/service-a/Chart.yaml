@@ -1,0 +1,9 @@
+apiVersion: v2
+name: service-a
+description: Helm chart for Service A (Order Service)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+maintainers:
+  - name: localplatform
+    email: dev@localplatform.com

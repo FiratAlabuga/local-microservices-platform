@@ -1,4 +1,4 @@
-# Local overrides for Service B (kind cluster)
+# Local overrides for Service B (kind cluster connecting to local infra)
 service:
   type: NodePort
   nodePort: 30081
@@ -10,13 +10,25 @@ image:
 
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 1000m
+    memory: 1024Mi
   requests:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 200m
+    memory: 512Mi
 
 livenessProbe:
   initialDelaySeconds: 40
 readinessProbe:
   initialDelaySeconds: 25
+
+env:
+  SERVER_PORT: "8081"
+  DB_URL: "jdbc:postgresql://172.23.0.1:5433/notifications"
+  DB_USERNAME: "notifications_user"
+  KAFKA_BOOTSTRAP_SERVERS: "172.23.0.1:9092"
+  KAFKA_CONSUMER_GROUP: "notification-service"
+
+hostAliases:
+  - ip: "172.23.0.1"
+    hostnames:
+      - "kafka"

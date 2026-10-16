@@ -12,8 +12,12 @@ val flywayVersion = "11.9.1"
 val testcontainersVersion = "1.21.1"
 val logstashEncoderVersion = "8.1"
 
-// Tüm subproject'lere uygulanacak ortak yapılandırma
+// Tüm mikroservis subproject'lerine uygulanacak ortak yapılandırma
 subprojects {
+    if (name == "services") {
+        return@subprojects
+    }
+
     apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
@@ -32,6 +36,9 @@ subprojects {
     }
 
     dependencies {
+        // Jackson JSR310 (Java 8 date/time support)
+        "implementation"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
         // Spring Boot starters — her servis kendi ihtiyacına göre ekler
         "annotationProcessor"("org.springframework.boot:spring-boot-configuration-processor")
 

@@ -1,4 +1,4 @@
-# Local overrides for Service A (kind cluster)
+# Local overrides for Service A (kind cluster connecting to local infra)
 service:
   type: NodePort
   nodePort: 30080
@@ -10,13 +10,26 @@ image:
 
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 1000m
+    memory: 1024Mi
   requests:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 200m
+    memory: 512Mi
 
 livenessProbe:
   initialDelaySeconds: 40
 readinessProbe:
   initialDelaySeconds: 25
+
+env:
+  SERVER_PORT: "8080"
+  DB_URL: "jdbc:postgresql://172.23.0.1:5434/orders"
+  DB_USERNAME: "orders_user"
+  REDIS_HOST: "172.23.0.1"
+  REDIS_PORT: "6380"
+  KAFKA_BOOTSTRAP_SERVERS: "172.23.0.1:9092"
+
+hostAliases:
+  - ip: "172.23.0.1"
+    hostnames:
+      - "kafka"

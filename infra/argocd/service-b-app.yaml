@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: service-b
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: service-b
+    app.kubernetes.io/part-of: local-microservices-platform
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: '${GIT_REPO_URL:-https://github.com/placeholder-owner/local-microservices-platform.git}'
+    targetRevision: HEAD
+    path: infra/helm/service-b
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-local.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: microservices
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
